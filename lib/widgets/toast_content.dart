@@ -70,84 +70,87 @@ class ToastContent extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isRtl = Directionality.of(context) == TextDirection.rtl;
 
-    return Row(
-      children: [
-        Padding(
-          padding: isRtl
-              ? const EdgeInsets.only(right: horizontalComponentPadding)
-              : const EdgeInsets.only(left: horizontalComponentPadding),
-          child: _getNotificationIcon(),
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 20),
-          child: Container(
-            width: 1,
-            color: greyColor,
+    return InkWell(
+      onTap: onActionPressed,
+      child: Row(
+        children: [
+          Padding(
+            padding: isRtl
+                ? const EdgeInsets.only(right: horizontalComponentPadding)
+                : const EdgeInsets.only(left: horizontalComponentPadding),
+            child: _getNotificationIcon(),
           ),
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (title != null) ...[
-                title!,
-                const SizedBox(
-                  height: 5,
-                ),
+          const SizedBox(
+            width: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            child: Container(
+              width: 1,
+              color: greyColor,
+            ),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (title != null) ...[
+                  title!,
+                  const SizedBox(
+                    height: 5,
+                  ),
+                ],
+                description,
+                // if (action != null) ...[
+                //   const SizedBox(
+                //     height: 5,
+                //   ),
+                //   onActionPressed == null
+                //       ? action!
+                //       : InkWell(
+                //           onTap: onActionPressed,
+                //           child: action!,
+                //         )
+                // ]
               ],
-              description,
-              if (action != null) ...[
-                const SizedBox(
-                  height: 5,
-                ),
-                onActionPressed == null
-                    ? action!
-                    : InkWell(
-                        onTap: onActionPressed,
-                        child: action!,
-                      )
-              ]
-            ],
+            ),
           ),
-        ),
-        Visibility(
-          visible: displayCloseButton,
-          child: closeButton?.call(onCloseButtonPressed) ??
-              InkWell(
-                onTap: () {
-                  onCloseButtonPressed.call();
-                },
-                child: Padding(
-                  padding: isRtl
-                      ? const EdgeInsets.only(
-                          top: verticalComponentPadding,
-                          left: horizontalComponentPadding,
-                        )
-                      : const EdgeInsets.only(
-                          top: verticalComponentPadding,
-                          right: horizontalComponentPadding,
+          Visibility(
+            visible: displayCloseButton,
+            child: closeButton?.call(onCloseButtonPressed) ??
+                InkWell(
+                  onTap: () {
+                    onCloseButtonPressed.call();
+                  },
+                  child: Padding(
+                    padding: isRtl
+                        ? const EdgeInsets.only(
+                            top: verticalComponentPadding,
+                            left: horizontalComponentPadding,
+                          )
+                        : const EdgeInsets.only(
+                            top: verticalComponentPadding,
+                            right: horizontalComponentPadding,
+                          ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Icon(
+                          Icons.close,
+                          color: Colors.grey,
+                          size: 15,
                         ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Icon(
-                        Icons.close,
-                        color: Colors.grey,
-                        size: 15,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
